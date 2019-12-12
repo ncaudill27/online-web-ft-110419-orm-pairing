@@ -29,11 +29,11 @@ You should be able to run the following lines of code without seeing any errors:
 ```ruby
 u = User.new(name: “Chris”, email: “chris@flatiron.com”)
 u.save
-user_two = User.new(name: “Jenn”, email: “jenn@flatiron.com”)
+user_two = User.new({name: “Jenn”, email: “jenn@flatiron.com”})
 user_two.save
-tweet_one = Tweet.new(message: “My first tweet!”, user_id: u.id, date: “dec 11”)
+tweet_one = Tweet.new({message: “My first tweet!”, user_id: u.id, date: “dec 11”})
 tweet_one.save
-tweet_two = Tweet.new(message: “Who wrote this tweet?”, date: “dec 12”)
+tweet_two = Tweet.new({message: “Who wrote this tweet?”, date: “dec 12”})
 tweet_two.save
 
 u.tweets # an array with tweet_one
