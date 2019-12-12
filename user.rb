@@ -13,16 +13,21 @@ class User
   end
 
   def save
-    sql = "INSERT INTO users (name, email) values (?, ?)"
-    DB.execute(sql, self.name, self.email)
-    id_received_from_db = DB.execute("SELECT last_insert_rowid() FROM users")[0][0]
-    self.id = id_received_from_db
+    if self.id && DB.execute("SELECT * FROM users WHERE id = ?", self.id).length == 1
+      sql = "UPDATE users SET name = ?, email = ? WHERE id = ?"
+      DB.execute(sql, self.name, self.email, self.id)
+    else
+      sql = "INSERT INTO users (name, email) VALUES (?, ? )"
+      DB.execute(sql, self.name, self.email)
+      self.id = DB.execute("SELECT last_insert_rowid() FROM users")[0][0]
+    end
   end
+
 
   def self.all
     sql = "SELECT * FROM users"
     all_users = DB.execute(sql)
-    all_users_as_instances = all_users.map { |user_row| User.new(user_row) } 
+    all_users_as_instances = all_users.map { |user_row| User.new(user_row) }
   end
 
 
